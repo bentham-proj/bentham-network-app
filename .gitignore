@@ -31,4 +31,7 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+<<<<<<< HEAD
 .Rproj.user
+=======
+>>>>>>> f6f14ea5a02c9dcf52309ad809ba4141c0049680
