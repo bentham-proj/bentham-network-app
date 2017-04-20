@@ -8,9 +8,7 @@ library(DT)
 install.packages("DT", dependencies = TRUE)
 install.packages("ggvis", dependencies = TRUE)
 
-DT::datatable(df)
 
-getwd()
 df <- mtcars %>% as_data_frame()
 df$text <- sample(c("prison rocks", "yo bro, here is the sort code 09-23-12", "get the spice man he has all the best spice, the best spice you can get in all the land. I am in a gang also"), 
                   size = 32, 
