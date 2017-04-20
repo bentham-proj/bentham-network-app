@@ -66,6 +66,25 @@ server <- shinyServer(function(input, output, session) {
   
   mydata <- df 
   
+
+  
+  reactive_data <- reactive({
+    
+    in1  <- input$column1
+    in2  <- input$column2
+    in3  <- input$column3
+    rows <- input$n_rows
+    search_term <- paste0(in3, collapse = "|")
+    text_search_result <- str_detect(mydata$text, search_term)
+    
+    d <- mydata[mydata$gear %in% in1 & 
+                  mydata$cyl %in% in2 & 
+                  text_search_result, ]
+    
+    return(d)
+    
+  })
+
   updateSelectInput(session, 
                     inputId = "column1", 
                     choices = unique(mydata$gear), 
@@ -92,24 +111,24 @@ server <- shinyServer(function(input, output, session) {
         "}")
     ))), callback = JS('table.page(3).draw(false);'), {
     
-    in1  <- input$column1
-    in2  <- input$column2
-    in3  <- input$column3
-    rows <- input$n_rows
+      in1  <- input$column1
+      in2  <- input$column2
+      in3  <- input$column3
+      rows <- input$n_rows
+      search_term <- paste0(in3, collapse = "|")
+      text_search_result <- str_detect(mydata$text, search_term)
+      
+      mydata[mydata$gear %in% in1 & 
+               mydata$cyl %in% in2 & 
+               text_search_result, ]
     
-    search_term <- paste0(in3, collapse = "|")
-    text_search_result <- str_detect(mydata$text, search_term)
-    
-    mydata[mydata$gear %in% in1 & 
-             mydata$cyl %in% in2 & 
-             text_search_result, ][0:rows, ]
-    
+     
   })
 
   output$data_download <- downloadHandler(
     
     filename = function() {paste("data-", Sys.Date(), ".csv", sep="")},
-    content = function(file) {write.csv(output$mtcarsdata, file)}
+    content = function(file) {write.csv(reactive_data(), file)}
     
     )
 })
@@ -128,7 +147,16 @@ renderDataTable(options = list(
     "}"))
 
 
-
+  
+  list(
+    in1  = input$column1,
+    in2  = input$column2,
+    in3  = input$column3,
+    rows = input$n_rows,
+    search_term = paste0(in3, collapse = "|"),
+    text_search_result = str_detect(mydata$text, search_term)
+  )
+  
 
 
   git config --global user.name 'C McDonald'
