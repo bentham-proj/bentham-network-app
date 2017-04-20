@@ -5,19 +5,19 @@ library(dplyr)
 library(tidyr)
 library(stringr)
 library(DT)
-install.packages("DT", dependencies = TRUE)
-install.packages("ggvis", dependencies = TRUE)
 
-DT::datatable(df)
-
-getwd()
 df <- mtcars %>% as_data_frame()
-df$text <- sample(c("prison rocks", "yo bro, here is the sort code 09-23-12", "get the spice man he has all the best spice, the best spice you can get in all the land. I am in a gang also"), 
+df$text <- sample(c("prison rocks", 
+                    "yo bro, here is the sort code 09-23-12", 
+                    "get the spice man he has all the best spice, 
+                    the best spice you can get in all the land. 
+                    I am in a gang also"), 
                   size = 32, 
                   replace = TRUE)
 
+
 ui <- dashboardPage(
-  dashboardHeader(title = "Mobile phone data"),
+  dashboardHeader(title = "Mobile phone explorer"),
   
   dashboardSidebar(
     
@@ -51,6 +51,7 @@ ui <- dashboardPage(
   ), 
   
   dashboardBody(
+    tags$img(align="right",src="https://media.licdn.com/media/AAEAAQAAAAAAAAwXAAAAJGQ4MzU0ZTEwLTNiMDAtNGQyZi1iNzBhLWIwNDBkMzhlZTc3Ng.png",height="50px"),
     tabItems(
       tabItem(tabName = "dashboard", h2("Data viewer"),
               fluidPage(box(dataTableOutput("mtcarsdata")))), 
@@ -65,8 +66,6 @@ ui <- dashboardPage(
 server <- shinyServer(function(input, output, session) {
   
   mydata <- df 
-  
-
   
   reactive_data <- reactive({
     
@@ -137,79 +136,15 @@ if (interactive()) {
 shinyApp(ui, server)
 }
 
-length(df)
-renderDataTable(options = list(
-  searchHighlight = TRUE,
-  # this adds black colour to col header
-  initComplete = JS(
-    "function(settings, json) {",
-    "$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});",
-    "}"))
 
-
-  
-  list(
-    in1  = input$column1,
-    in2  = input$column2,
-    in3  = input$column3,
-    rows = input$n_rows,
-    search_term = paste0(in3, collapse = "|"),
-    text_search_result = str_detect(mydata$text, search_term)
-  )
-  
-
-
-  git config --global user.name 'C McDonald'
-  git config --global user.email 'testbentham1234@gmail.com'
+ # git config --global user.name 'C McDonald'
+ # git config --global user.email 'testbentham1234@gmail.com'
 
 
 
-
-renderDataTables(options = list(
-  searchHighlight = TRUE,
-  # this adds black colour to col header
-  initComplete = JS(
-    "function(settings, json) {",
-    "$(this.api().table().header()).css({'background-color': '#000', 'color': '#fff'});",
-    "}"),
-  columnDefs = list(list(
-  targets = 5,
-  render = JS(
-    "function(data, type, row, meta) {",
-    "return type === 'display' && data.length > 6 ?",
-    "'<span title=\"' + data + '\">' + data.substr(0, 6) + '...</span>' : data;",
-    "}")
-))), callback = JS('table.page(3).draw(false);'))
-
-
-output$data_download <- downloadHandler(
-  
-  selected_data <- mydata[mydata$gear %in% in1 & 
-                            mydata$cyl %in% in2 & 
-                            text_search_result, ]
-  
-  filename <-  function() { paste("selected_data", ".csv", sep = "") },
-  content  <- function(file) {write.csv(selected_data, file)}
-)
-
+"https://media.licdn.com/media/AAEAAQAAAAAAAAwXAAAAJGQ4MzU0ZTEwLTNiMDAtNGQyZi1iNzBhLWIwNDBkMzhlZTc3Ng.png"
 
 # icons lst 
 # http://fontawesome.io/icons/
-
-
-x <- NULL
-t <- NULL
-d <- NULL
-
-
-all(map_lgl(list(in1, in2, in3), ~is.null(.)))
-if (all(map_lgl(list(in1, in2, in3), ~is.null(.))))
-  return(mydata)
-else 
-  mydata[mydata$gear %in% in1 & 
-           mydata$cyl %in% in2 & 
-           text_search_result, ]
-
-
 
 
