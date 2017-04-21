@@ -136,13 +136,22 @@ if (interactive()) {
 shinyApp(ui, server)
 }
 
+<<<<<<< HEAD
+=======
+
+ # git config --global user.name 'C McDonald'
+ # git config --global user.email 'testbentham1234@gmail.com'
+>>>>>>> 4b70bc82119671442ac13bd9dd5664ca0769fd19
 
  # git config --global user.name 'C McDonald'
  # git config --global user.email 'testbentham1234@gmail.com'
 
 
 
+<<<<<<< HEAD
 "https://media.licdn.com/media/AAEAAQAAAAAAAAwXAAAAJGQ4MzU0ZTEwLTNiMDAtNGQyZi1iNzBhLWIwNDBkMzhlZTc3Ng.png"
+=======
+>>>>>>> 4b70bc82119671442ac13bd9dd5664ca0769fd19
 
 # icons lst 
 # http://fontawesome.io/icons/
